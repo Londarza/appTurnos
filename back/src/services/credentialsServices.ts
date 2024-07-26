@@ -1,24 +1,25 @@
+import { AppDataSource } from "../config/data-source";
 import createCredentialDTO from "../DTO/credentialsDTO";
-import ICredentials from "../interfaces/ICredentials";
-const listCredentials: ICredentials[] = [];
-let id = 1;`
+import { Credential } from "../entities/Credential";
+export const credentialsModel = AppDataSource.getRepository(Credential)
 
-`
-export const createCredentialService = async (credentials : createCredentialDTO) :Promise<number> => {
-  const newCredentials: ICredentials = {
-    id: id,
+
+
+export const createCredentialService = async (credentials : createCredentialDTO) :Promise<Credential> => {
+  const newCredentials: Credential = credentialsModel.create({
     username: credentials.username,
     password: credentials.password,
-  };
-  listCredentials.push(newCredentials);
-  id++;
-  return newCredentials.id;
+  })
+  await credentialsModel.save(newCredentials)
+ 
+  return newCredentials;
 };
 
 export const validateCredentials = async (credentials : createCredentialDTO) :Promise<number> =>{
-    const busqueda :ICredentials | undefined = listCredentials.find(credential => credential.username === credentials.username)
-    if (busqueda) {
-     if(busqueda.password === credentials.password){return busqueda.id} else {return 0}
+    const foundCredentials : Credential | null = await credentialsModel.findOneBy({username:credentials.username})
+    
+    if (foundCredentials) {
+     if(foundCredentials.password === credentials.password){return foundCredentials.id} else {return 0}
     } else {return 0}
 }
 

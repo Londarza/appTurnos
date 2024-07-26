@@ -12,8 +12,8 @@ export const getappointmentById = async (req:Request,res:Response) =>{
 }
 
 export const scheduleAppointments = async (req:Request,res:Response) =>{
-   const {date,time,status,user_id} = req.body
-   const newAppointment = await createAppointmentService({date,time,status,user_id})
+   const {date,time,user} = req.body
+   const newAppointment = await createAppointmentService({date,time,user})
     res.status(200).json(newAppointment)
 }
 
