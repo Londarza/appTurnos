@@ -4,8 +4,9 @@ const userRouter : Router = Router()
 
 
 userRouter.get('/',getUsers)
-userRouter.get('/:id',getUsersById)
 userRouter.post('/register',registerUser)
 userRouter.post('/loguin',loguinUser)
+userRouter.get('/:id',getUsersById)
+userRouter.post('/loguin', loguinUser)
 
 export default userRouter

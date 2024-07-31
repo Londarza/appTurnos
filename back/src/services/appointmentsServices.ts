@@ -1,45 +1,96 @@
-import { AppDataSource } from "../config/data-source";
+
 import { AppointmentDTO } from "../DTO/appointmentDTO";
 import { Appointment } from "../entities/Appointment";
-import { userModel } from "./userServices";
+
 import AppointmentStatus from "../ENUMS/EAppointmentStatus";
-export const appointmentsModel = AppDataSource.getRepository(Appointment)
+
+import { UserRepository } from "../repositories.ts/UserRepository";
+import { appointmentRepository } from "../repositories.ts/AppointmentRepository";
+import { AppDataSource } from "../config/data-source";
+
+
 export const getAppointmentsService = async (): Promise<Appointment[]> => {
-  const allAppointments = appointmentsModel.find({relations:{user:true}});
+  try {
+    const allAppointments = await appointmentRepository.find({relations:{user:true}});
+    if (!allAppointments) {
+      throw Error("No se pudo traer la lista de turnos.")
+    }
   return allAppointments;
+  } catch (error) {
+    console.error(error)
+    throw Error ("No se pudo trar la lista de turnos.")
+  }
+  
 };
 
-export const getAppointmentsByIdService = async (
-  id: number
-): Promise<Appointment | null> => {
-  const appointmentSerch = appointmentsModel.findOneBy({ id });
+export const getAppointmentsByIdService = async (  id: number): Promise<Appointment | null> => {
+ try {
+  const appointmentSerch = await appointmentRepository.findOne({    where: { id },    relations: { user: true }  });
+  if (!appointmentSerch) {
+    throw Error (`No se en contro el turno con el ID:${id}`)
+  }
   return appointmentSerch;
+ } catch (error) {
+  console.error(error)
+  throw Error (`No se en contro el turno con el ID:${id}`)
+ }
 };
+
+
 export const createAppointmentService = async (  appointment: AppointmentDTO): Promise<Appointment> => {
-  const user = await userModel.findOneBy({ id: appointment.user });
+  const queryRunner = AppDataSource.createQueryRunner();
+  try {
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+  const user = await UserRepository.findOneBy({ id: appointment.user });
 
   if (!user) {
-    throw new Error("User not found");
+    throw new Error(`Se intento agendar el turno al usuario con id ${appointment.user}, pero no se encontro ninguno`);
   }
-  const newAppointment: Appointment = appointmentsModel.create({
+  const newAppointment: Appointment = appointmentRepository.create({
     date: appointment.date,
     time: appointment.time,
     status: AppointmentStatus.ACTIVE,
     user: user
   });
-  await appointmentsModel.save(newAppointment);
+  await queryRunner.manager.save(newAppointment);
+  await queryRunner.commitTransaction();
   return newAppointment;
+ } catch (error) {
+  console.error("Error inesperado al crear turno:", error);
+        await queryRunner.rollbackTransaction();
+        throw Error("No se pudo agendar el turno.");
+ }finally{
+  await queryRunner.release();
+ }
+  
 };
 
 export const cancellAppointmentService = async (id: number): Promise<string> => {
-  const appointment = await appointmentsModel.findOne({ where: { id } });
+  const queryRunner = AppDataSource.createQueryRunner();
+  try {
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
+    const appointment = await appointmentRepository.findOne({ where: { id } });
   if (!appointment) {
-    return "no hay turnos con ese id";
+    throw Error ('No se encontro un turno con ese ID')
+  }
+  if(appointment.status === AppointmentStatus.CANCELLED){
+    return 'No se puede cancelar un turno que ya esta cancelado.'
   }
 
   appointment.status = AppointmentStatus.CANCELLED;
-  await appointmentsModel.save(appointment);
+  await queryRunner.manager.save(appointment);
   return "turno cancelado";
+  } catch (error) {
+    console.error("Error al cancelar turno", error);
+    await queryRunner.rollbackTransaction();
+    throw Error("No se pudo cancelar el turno.");
+  } finally {
+    await queryRunner.release()
+  }
+  
 };
 

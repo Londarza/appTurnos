@@ -1,25 +1,29 @@
-import { AppDataSource } from "../config/data-source";
 import createCredentialDTO from "../DTO/credentialsDTO";
 import { Credential } from "../entities/Credential";
-export const credentialsModel = AppDataSource.getRepository(Credential)
 
+import { credentialRepository } from "../repositories.ts/CredentialRepository";
 
-
-export const createCredentialService = async (credentials : createCredentialDTO) :Promise<Credential> => {
-  const newCredentials: Credential = credentialsModel.create({
+export const createCredentialService = async (  credentials: createCredentialDTO): Promise<Credential> => {
+  const newCredentials: Credential = credentialRepository.create({
     username: credentials.username,
-    password: credentials.password,
-  })
-  await credentialsModel.save(newCredentials)
- 
+    password: credentials.password
+  });
+  await credentialRepository.save(newCredentials);
+
   return newCredentials;
 };
 
-export const validateCredentials = async (credentials : createCredentialDTO) :Promise<number> =>{
-    const foundCredentials : Credential | null = await credentialsModel.findOneBy({username:credentials.username})
-    
-    if (foundCredentials) {
-     if(foundCredentials.password === credentials.password){return foundCredentials.id} else {return 0}
-    } else {return 0}
-}
+export const validateCredentials = async (  credentials: createCredentialDTO): Promise<Credential> => {
+  try {
+    const foundCredentials: Credential | null = await credentialRepository.findOneBy({ username: credentials.username });
 
+    if (foundCredentials?.password === credentials.password) {
+      return foundCredentials
+    } else {
+      throw Error('Error al validar las credenciales');
+    }
+  } catch (error) {
+    console.error('Error al validar las credenciales:', error);
+    throw new Error('Error al validar las credenciales');
+  }
+};

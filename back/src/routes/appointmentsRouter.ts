@@ -4,9 +4,9 @@ const appointmentsRouter : Router = Router()
 
 
 appointmentsRouter.get('/', getappointments)
-appointmentsRouter.get('/appointment', getappointmentById)
+appointmentsRouter.get('/appointment/:id', getappointmentById)
 appointmentsRouter.post('/schedule',scheduleAppointments )
-appointmentsRouter.put('/cancel', cancelAppointments)
+appointmentsRouter.put('/cancel/:id', cancelAppointments)
 
 
 
