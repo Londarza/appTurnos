@@ -9,7 +9,7 @@ export const CardContainer = styled.div`
   margin: 1rem 0;
   width: 100%;
   max-width: 400px;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow, scale 0.3s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,6 +17,10 @@ export const CardContainer = styled.div`
 
   &:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    scale: 1.01
+  }
+  .cancelled{
+    background-color: gray
   }
 `;
 
