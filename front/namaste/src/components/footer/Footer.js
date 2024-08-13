@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const FooterContainer = styled.footer`
-  width: 100%;
+  width: 100vw;
   background-color: #9370DB;
   color: #333; /* Texto gris oscuro */
   padding: 1rem;
