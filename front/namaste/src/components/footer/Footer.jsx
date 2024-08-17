@@ -1,6 +1,7 @@
 
 import { FooterContainer,FooterContent,FooterSection, SocialIcons, IconWrapper} from "./Footer.js";
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
+import {Link} from 'react-router-dom'
 const Footer = () => {
   return (
     <>
@@ -15,10 +16,10 @@ const Footer = () => {
     <FooterSection>
       <h2>Enlaces Útiles</h2>
       <ul>
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#servicios">Servicios</a></li>
-        <li><a href="#registro">Registro</a></li>
-        <li><a href="#login">Login</a></li>
+        <li><Link to="/">Inicio</Link></li>
+        <li><Link to="/services">Servicios</Link></li>
+        <li><Link to="/register">Registro</Link></li>
+        <li><Link to="/loguin">Login</Link></li>
       </ul>
     </FooterSection>
     <FooterSection>

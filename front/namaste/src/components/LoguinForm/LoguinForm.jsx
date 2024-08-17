@@ -1,4 +1,4 @@
-import { Form, FormGroup, Label, Input, Button } from './loguinForm'
+import { Form, FormGroup, Label, Input, Button, StyledLink } from './loguinForm'
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -56,7 +56,7 @@ const LoginForm = () => {
             </FormGroup>
             {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
             <Button type="submit">Iniciar Sesión</Button>
-            <a href="/register">¿No estás registrado? Haz clic aquí</a>
+            <StyledLink to="/register">¿No estás registrado? Haz clic aquí</StyledLink>
         </Form>
     );
 };

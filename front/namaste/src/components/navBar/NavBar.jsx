@@ -9,10 +9,10 @@ const NavBar = () => {
           <a href="/"><img src="/namasteLogo.png" alt="Logo" /></a>
         </Logo>
         <Nav>
-          <NavLink href="#inicio">Inicio</NavLink>
-          <NavLink href="#servicios">Servicios</NavLink>
-          <NavLink href="#registro">Registro</NavLink>
-          <NavLink href="#login">Login</NavLink>
+          <NavLink to="/">Inicio</NavLink>
+          <NavLink to="/servicios">Servicios</NavLink>
+          <NavLink to="/register">Registro</NavLink>
+          <NavLink to="/loguin">Loguin</NavLink>
         </Nav>
       </Header>
       </>

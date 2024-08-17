@@ -1,5 +1,6 @@
 // components/heroSection/HeroSection.js
 import styled from 'styled-components';
+import {Link} from 'react-router-dom'
 
 export const HeroContainer = styled.section`
   width: 100vw;
@@ -20,7 +21,7 @@ export const HeroContent = styled.div`
   border-radius: 10px; /* Bordes redondeados para un estilo más suave */
 `;
 
-export const HeroButton = styled.a`
+export const HeroButton = styled(Link)`
   display: inline-block;
   margin-top: 1rem;
   padding: 0.5rem 2rem;

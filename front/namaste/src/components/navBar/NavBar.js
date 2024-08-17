@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-
+import {Link} from 'react-router-dom'
 export const Header = styled.header`
   position: fixed; 
   top: 0; 
@@ -28,7 +28,7 @@ export const Nav = styled.nav`
   gap: 1rem;
 `;
 
-export const NavLink = styled.a`
+export const NavLink = styled(Link)`
   color: #FFFFFF; /* Texto blanco */
   text-decoration: none;
   padding: 0.5rem 1rem;

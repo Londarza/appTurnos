@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import {Link} from 'react-router-dom'
 
 export const Form = styled.form`
     background-color: #f8f9fa;
@@ -54,7 +54,7 @@ export const Button = styled.button`
     }
 `;
 
-export const StyledLink = styled.a`
+export const StyledLink = styled(Link)`
     display: block;
     margin-top: 10px;
     text-align: center;
