@@ -73,24 +73,26 @@ export const cancellAppointmentService = async (id: number): Promise<string> => 
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
-    const appointment = await appointmentRepository.findOne({ where: { id } });
-  if (!appointment) {
-    throw Error ('No se encontro un turno con ese ID')
-  }
-  if(appointment.status === AppointmentStatus.CANCELLED){
-    return 'No se puede cancelar un turno que ya esta cancelado.'
-  }
+    const appointment = await queryRunner.manager.findOne(appointmentRepository.target, { where: { id } });
 
-  appointment.status = AppointmentStatus.CANCELLED;
-  await queryRunner.manager.save(appointment);
-  return "turno cancelado";
+    if (!appointment) {
+      throw new Error('No se encontró un turno con ese ID');
+    }
+    if (appointment.status === AppointmentStatus.CANCELLED) {
+      return 'No se puede cancelar un turno que ya está cancelado.';
+    }
+
+    appointment.status = AppointmentStatus.CANCELLED;
+    await queryRunner.manager.save(appointment);
+
+    await queryRunner.commitTransaction(); // Hacer commit de la transacción
+
+    return "Turno cancelado";
   } catch (error) {
     console.error("Error al cancelar turno", error);
-    await queryRunner.rollbackTransaction();
-    throw Error("No se pudo cancelar el turno.");
+    await queryRunner.rollbackTransaction(); // Revertir la transacción si hay un error
+    throw new Error("No se pudo cancelar el turno.");
   } finally {
-    await queryRunner.release()
+    await queryRunner.release(); // Liberar el queryRunner
   }
-  
 };
-

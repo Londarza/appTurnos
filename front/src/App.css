@@ -1,0 +1,110 @@
+/* reset.css */
+/* Global reset for all elements */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+/* App.css o el archivo CSS global */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.main-content {
+  margin-top: 70px; /* Ajusta el valor según la altura del header */
+  margin-bottom: 60px; /* Ajusta el valor según la altura del footer */
+  height: 100%;
+  flex: 1;
+  padding-top: 60px; /* Ajuste para el header fijo */
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote::before, blockquote::after, q::before, q::after {
+  content: '';
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Reset for form elements */
+input, button, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+}
+
+button, input {
+  overflow: visible;
+}
+
+button, select {
+  text-transform: none;
+}
+
+button::-moz-focus-inner, [type="button"]::-moz-focus-inner, [type="reset"]::-moz-focus-inner, [type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+button:-moz-focusring, [type="button"]:-moz-focusring, [type="reset"]:-moz-focusring, [type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/* Remove default styles for links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Remove default styles for images */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #FAF9F6; /* Color Secundario - Blanco Suave */
+  color: #000000; /* Color por defecto para texto */
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #9370DB; /* Color Principal - Púrpura/Lavanda */
+  margin: 0;
+}
+
+p {
+  color: #000000; /* Color por defecto para texto */
+  margin: 0 0 1em;
+}
